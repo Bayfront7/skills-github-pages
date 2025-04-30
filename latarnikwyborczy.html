@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Among Us: Polska Edycja Wyborcza</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        :root {
+            --red: #ff4655;
+            --blue: #4655ff;
+            --green: #55ff46;
+            --yellow: #ffcc00;
+            --black: #1a1a2e;
+            --white: #f1f1f1;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: var(--black);
+            color: var(--white);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-image: url('https://wallpapers.com/images/hd/red-among-us-funny-get-off-my-phone-f2y9j865f3x07kf5.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        h1 {
+            color: var(--red);
+            text-align: center;
+            text-shadow: 4px 4px 0 var(--black);
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        h2 {
+            color: var(--yellow);
+            text-align: center;
+            margin-top: 0;
+            font-size: 1.2em;
+            text-shadow: 2px 2px 0 var(--black);
+        }
+        
+        .container {
+            background-color: rgba(26, 26, 46, 0.85);
+            border: 4px solid var(--blue);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(70, 85, 255, 0.3);
+        }
+        
+        .question {
+            background-color: rgba(33, 33, 60, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--green);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .question::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--red), var(--blue), var(--green), var(--yellow));
+        }
+        
+        .question h3 {
+            color: var(--yellow);
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        label {
+            display: block;
+            padding: 12px;
+            background-color: rgba(70, 85, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        label:hover {
+            background-color: rgba(70, 85, 255, 0.4);
+            transform: translateX(5px);
+            border-color: var(--blue);
+        }
+        
+        input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            margin-right: 10px;
+            position: relative;
+            top: 2px;
+            cursor: pointer;
+        }
+        
+        input[type="radio"]:checked {
+            background-color: var(--green);
+            box-shadow: 0 0 5px var(--green);
+        }
+        
+        button {
+            background-color: var(--red);
+            color: var(--white);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin: 30px auto;
+            display: block;
+            transition: all 0.3s;
+            font-family: 'Press Start 2P', cursive;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 0 #cc0000;
+            position: relative;
+        }
+        
+        button:hover {
+            background-color: #ff2b3b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #cc0000;
+        }
+        
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 #cc0000;
+        }
+        
+        #result {
+            background-color: rgba(33, 33, 60, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+            border: 3px solid var(--yellow);
+            animation: fadeIn 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #result::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="10" y="50" fill="white" opacity="0.1" font-family="Press Start 2P" font-size="10">AMONG US</text></svg>');
+            background-repeat: repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .candidate {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .candidate h3 {
+            margin-top: 0;
+            color: var(--yellow);
+            border-bottom: 2px dashed var(--yellow);
+            padding-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .candidate p {
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            color: var(--green);
+            font-weight: bold;
+            font-size: 1.1em;
+            line-height: 1.7;
+            background-color: rgba(85, 255, 70, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            border-left: 3px solid var(--green);
+        }
+        
+        .signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 30px;
+            color: #aaaaaa;
+            font-size: 0.8em;
+        }
+        
+        .emergency-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background-color: var(--red);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 0 5px rgba(255, 70, 85, 0.3), 0 0 30px var(--red);
+            animation: pulse 2s infinite;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+        
+        .emergency-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 8px rgba(255, 70, 85, 0.3), 0 0 40px var(--red);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 5px rgba(255, 70, 85, 0.3), 0 0 30px var(--red); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(255, 70, 85, 0.3), 0 0 50px var(--red); }
+            100% { transform: scale(1); box-shadow: 0 0 0 5px rgba(255, 70, 85, 0.3), 0 0 30px var(--red); }
+        }
+        
+        .emergency-button::after {
+            content: "!";
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 0 var(--black);
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--red), var(--yellow));
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .crewmate-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: var(--red);
+            border-radius: 50%;
+            margin-right: 5px;
+            position: relative;
+            top: 4px;
+        }
+        
+        .crewmate-icon::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: 5px;
+            width: 10px;
+            height: 15px;
+            background-color: var(--red);
+            border-radius: 50% 50% 0 0;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                font-size: 12px;
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .emergency-button {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .emergency-button::after {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AMONG US: POLSKA EDYCJA WYBORCZA</h1>
+        <h2>"Który z tych kolorowych kandydatów powinien rządzić?"</h2>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div id="quiz">
+            <div class="question">
+                <h3><span class="crewmate-icon"></span> Jesteś na Skeldzie. Co robisz jako pierwsze?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="bobofrucik">Biegnę do Admina sprawdzić, kto jeszcze żyje (i czy mają włosy)</label>
+                    <label><input type="radio" name="q1" value="hozol">Udaję, że wykonuję zadania, ale sam nie wiem co robię</label>
+                    <label><input type="radio" name="q1" value="zerashi">Stoję w korytarzu i krzyczę "WYP*******MY WULGARYZMY Z SERWERA!"</label>
+                    <label><input type="radio" name="q1" value="aurelia">Niszczę mleczarnię w Kafeterii (i wyłączam kamerę)</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3><span class="crewmate-icon"></span> Znalazłeś ciało. Twoja reakcja?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="bobofrucik">"Kiedyś to były porządne morderstwa!"</label>
+                    <label><input type="radio" name="q2" value="hozol">Piszę długi esej o tym kto to zrobił, ale sam nie wiem o co chodzi</label>
+                    <label><input type="radio" name="q2" value="natalka">Uczę trupa sikania do ubikacji</label>
+                    <label><input type="radio" name="q2" value="diablica">"To mój brat... i jednocześnie mąż... Cersei by była dumna!"</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3><span class="crewmate-icon"></span> Jesteś impostorem. Jaką strategię wybierasz?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="narcysta">Zabijam tylko przed kamerami - każdy musi zobaczyć moje piękne gify</label>
+                    <label><input type="radio" name="q3" value="boracik">Programuję system głosowania tak, żeby i tak wygrać</label>
+                    <label><input type="radio" name="q3" value="pryrre">"DEORTUJMY WSZYSTKICH IMPOSTORÓW!... czekaj, sam jestem impostorem?"</label>
+                    <label><input type="radio" name="q3" value="mesdek">Mówię tak szybko, że wszyscy się poddają z bezradności</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3><span class="crewmate-icon"></span> Podczas spotkania ktoś oskarża Cię bez dowodów. Co robisz?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="emhaes">Wkurwiam się i wyłączam mikrofon</label>
+                    <label><input type="radio" name="q4" value="lemon">Zmieniam płeć i udaję, że to nie ja</label>
+                    <label><input type="radio" name="q4" value="bobmarley">Palę coś i mówię "nie czaje, ale buja"</label>
+                    <label><input type="radio" name="q4" value="adamesko">Krzyczę tak głośno, że nikt nie słyszy oskarżeń</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3><span class="crewmate-icon"></span> Jakie masz zadanie jako crewmate?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="zwierzak">Znaleźć Misia i zaprowadzić pokój</label>
+                    <label><input type="radio" name="q5" value="paci">Wyrzucić wszystkie śmieci do jednego worka</label>
+                    <label><input type="radio" name="q5" value="szymek">Piwo w Reaktorze (Kuflowe+)</label>
+                    <label><input type="radio" name="q5" value="luki">Nie wiem, jeszcze nie wymyśliłem</label>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3><span class="crewmate-icon"></span> Co robisz, gdy widzisz podejrzane zachowanie?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q6" value="bobofrucik">Mówię "kiedyś to ludzie byli uczciwi!"</label>
+                    <label><input type="radio" name="q6" value="estiment">Wzruszam ramionami - nie mój problem</label>
+                    <label><input type="radio" name="q6" value="karo">Krzyczę przez nowy mikrofon "SUS!"</label>
+                    <label><input type="radio" name="q6" value="ma1ked">Daję mu łopatę - niech sam wykopie sobie grób</label>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3><span class="crewmate-icon"></span> Jak wybierasz kolor swojego astronauty?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q7" value="narcysta">Najbardziej rzucający się w oczy - muszę być widoczny!</label>
+                    <label><input type="radio" name="q7" value="michele">Czekam aż skończę 18 lat żeby wybrać</label>
+                    <label><input type="radio" name="q7" value="lemon">Zmieniam codziennie w zależności od nastroju</label>
+                    <label><input type="radio" name="q7" value="jaś">Wybieram taki, z którego będzie najlepszy mem</label>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3><span class="crewmate-icon"></span> Twój styl gry w Among Us to:</h3>
+                <div class="options">
+                    <label><input type="radio" name="q8" value="diablica">Rodzinna gra zespołowa (rodzice i dzieci razem)</label>
+                    <label><input type="radio" name="q8" value="boracik">Hackuję system żeby zawsze być impostorem</label>
+                    <label><input type="radio" name="q8" value="adamesko">Krzyczę tak głośno, że nikt nie może się dogadać</label>
+                    <label><input type="radio" name="q8" value="szymek">Gram tylko po piwie (Kuflowe+)</label>
+                </div>
+            </div>
+
+            <button onclick="calculateResult()">ZGŁOŚ WYNIK</button>
+        </div>
+
+        <div id="result">
+            <h2 style="color: var(--yellow); text-align: center;">TWÓJ IDEALNY KANDYDAT TO:</h2>
+            <div id="result-content"></div>
+            <div class="signature">Test przygotowany przez ChatGPT<br>Sponsorowany przez "Polskę, która kiedyś była"</div>
+        </div>
+    </div>
+
+    <div class="emergency-button" onclick="alert('REPORT! Ktoś tu jest SUS!')"></div>
+
+    <script>
+        const candidates = {
+            bobofrucik: {
+                name: "BOBOFRUCIK (SPB)",
+                description: "Twoje włosy i nostalgia są twoją siłą. Program: przeszczep włosów+ i narzekanie, że 'kiedyś to była Polska'.",
+                quote: "'Admin pokazuje, że żyjesz, ale nie pokazuje czy masz włosy...'",
+                color: "#ff5555"
+            },
+            hozol: {
+                name: "HOZOL (WPH)",
+                description: "Nawet ty nie wiesz, co robisz, ale brzmisz przekonująco. Twój program wyborczy jest tak zagmatwany, że sam go nie rozumiesz.",
+                quote: "'Głosujcie na mnie!... chyba... nie wiem o co chodzi...'",
+                color: "#4655ff"
+            },
+            zerashi: {
+                name: "ZERASHI (KPZ)",
+                description: "Serwery drżą przed twoją purytańską ręką. Twoja misja: wypierdolić wulgaryzmy z każdego czatu.",
+                quote: "'To nie impostor, to JEBANY IMPOSTOR! (ups, sam złamałem zasady)'",
+                color: "#55ff46"
+            },
+            aurelia: {
+                name: "AURELIA (OPA)",
+                description: "Mleko to twój wróg numer jeden. Kamery - numer dwa. Wolisz działać w ukryciu, bo wiesz, że twoje pomysły są... kontrowersyjne.",
+                quote: "'Zlikwidujmy mleczarnię w Kafeterii! (i wyłączmy kamery)'",
+                color: "#ff00aa"
+            },
+            narcysta: {
+                name: "NARCYSTA (PN)",
+                description: "Żyjesz w świecie gifów i samouwielbienia. Każde twoje działanie musi być perfekcyjnie animowane.",
+                quote: "'Zobaczcie ten gif jak pięknie morduję crewmate'a!'",
+                color: "#ffff00"
+            },
+            natalka: {
+                name: "NATALKA (PPN)",
+                description: "Psy już się boją twoich treningów toaletowych. Uważasz, że każde zwierzę powinno znać zasady higieny.",
+                quote: "'Widziałam jak impostor sikał w korytarzu! DO WETERYNARZA Z NIM!'",
+                color: "#ff9900"
+            },
+            diablica: {
+                name: "DIABLICA (PRD)",
+                description: "Twoja rodzina jest... bardzo bliska. Inspirujesz się Cersei Lannister i marzysz o legalizacji związków kazirodczych.",
+                quote: "'To mój brat... i jednocześnie mąż... i może syn? Gry o Tron mnie inspirują!'",
+                color: "#aa00ff"
+            },
+            zwierzak: {
+                name: "ZWIERZAK (PTZ)",
+                description: "Szukasz Misia, a świat szuka ciebie. Twój program to pokój na świecie i misie dla wszystkich.",
+                quote: "'Nie widzieliście Misia? Musimy zaprowadzić pokój!'",
+                color: "#00ffff"
+            },
+            boracik: {
+                name: "BORACIK (PPB)",
+                description: "Wygrywasz, bo system jest trochę przekłamany... a dokładniej - sam go zaprogramowałeś.",
+                quote: "'Głosujcie na mnie! (i tak wygram, bo sam liczę głosy)'",
+                color: "#ffffff"
+            },
+            pryrre: {
+                name: "PRYRRE (CPP)",
+                description: "Impostorzy? K***A, DEPORTACJA! Nawet jeśli sam jesteś impostorem.",
+                quote: "'DEORTUJMY WSZYSTKICH IMPOSTORÓW!... czekaj, sam jestem impostorem?'",
+                color: "#000000"
+            },
+            emhaes: {
+                name: "EMHAES (PRE)",
+                description: "Lepiej cię nie drażnić. Jesteś łatwy do wkurwienia i wtedy robisz się niebezpieczny.",
+                quote: "'NIE WKURWIAJCIE MNIE! *wyłącza mikrofon*'",
+                color: "#ff6600"
+            },
+            mesdek: {
+                name: "MESDEK (PRM)",
+                description: "PrzeMÓWIŁEŚ wszystkich do poddania się. Twoje szybkie mówienie to twój największy atut.",
+                quote: "'PrzeMÓWMYsobieżetojestoczywistetaknaprawdętonieistotne...'",
+                color: "#ff00ff"
+            },
+            lemon: {
+                name: "LEMON (TPL)",
+                description: "Płciowo elastyczny(a). Dziś jesteś czerwoną crewmate, jutro niebieskim impostorem.",
+                quote: "'Dziś jestem... no właśnie, kim?'",
+                color: "#88ff00"
+            },
+            bobmarley: {
+                name: "BOB MARLEY (PBMS)",
+                description: "Nie czajesz, ale vibe jest. Twój program to legalizacja i chill.",
+                quote: "'Nie czaje o co chodzi, ale buja...'",
+                color: "#00aa00"
+            },
+            adamesko: {
+                name: "ADAMESKO (PKA)",
+                description: "Krzyczysz tak głośno, że nikt nie słyszy oskarżeń. Twój głos przekracza limity decybeli.",
+                quote: "'COOOOO? NIE SŁYSZĘ WAS PRZEZ SWÓJ WŁASNY KRZYK!'",
+                color: "#ff0000"
+            },
+            paci: {
+                name: "PACI (SP)",
+                description: "Segregacja? Nie, dziękuję. Wszystkie śmieci do jednego worka, a potem gra na pianinie.",
+                quote: "'Chopin też by segregował śmieci... ale tylko na scenie!'",
+                color: "#996633"
+            },
+            szymek: {
+                name: "SZYMEK (PPS)",
+                description: "Piwo w pracy to twój program gospodarczy. Kuflowe+ dla każdego crewmate'a!",
+                quote: "'Pracujesz w Reaktorze? Masz piwo! Pracujesz w O2? Masz piwo!'",
+                color: "#ccaa00"
+            },
+            luki: {
+                name: "LUKI (PNL)",
+                description: "Program będzie... kiedyś. Na razie nie wiesz co robisz, ale na pewno będziesz narzekać.",
+                quote: "'Mam świetny pomysł... ale jeszcze nie wiem jaki...'",
+                color: "#aaaaaa"
+            },
+            estiment: {
+                name: "ESTIMENT (TRTPE)",
+                description: "Problemy innych to nie twój problem. Brzmisz jak komunista, ale 'to niesłuszne oskarżenia'.",
+                quote: "'Inflacja? Nie mój problem. Głosujcie na mnie!'",
+                color: "#cc0000"
+            },
+            karo: {
+                name: "KARO (PNPK)",
+                description: "Twój mikrofon jest zawsze najgłośniejszy. Program: nowy mikrofon+ i koalicja z Zerashim.",
+                quote: "'PODGŁOŚNIJMY POLSKĘ! (ale tylko moje wypowiedzi)'",
+                color: "#ff88cc"
+            },
+            ma1ked: {
+                name: "MA1KED (ŁPRM)",
+                description: "Każdy dostanie łopatę - niech sami wykopią sobie grób. Twoja inflacja już ich dobije.",
+                quote: "'Łopata to narzędzie przyszłości! (i grobu)'",
+                color: "#333333"
+            },
+            michele: {
+                name: "MICHELE (JPM)",
+                description: "Twój program jest dostępny dopiero po 18 roku życia. Na razie nie wiesz co robisz.",
+                quote: "'Zapytajcie mnie za 5 lat!'",
+                color: "#00ccff"
+            },
+            jaś: {
+                name: "JAŚ (PMJ)",
+                description: "Świat to jeden wielki mem. Próbujesz zrobić żart ze wszystkiego, nawet z polityki.",
+                quote: "'Z tego będzie mem! (nawet jak to morderstwo)'",
+                color: "#ffcc00"
+            }
+        };
+
+        function calculateResult() {
+            const answers = {};
+            let maxScore = 0;
+            let resultCandidate = null;
+
+            // Zbierz odpowiedzi
+            document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+                const candidate = input.value;
+                answers[candidate] = (answers[candidate] || 0) + 1;
+                
+                if (answers[candidate] > maxScore) {
+                    maxScore = answers[candidate];
+                    resultCandidate = candidate;
+                }
+            });
+
+            // Jeśli remis, wybierz losowo
+            const tiedCandidates = Object.keys(answers).filter(c => answers[c] === maxScore);
+            if (tiedCandidates.length > 1) {
+                resultCandidate = tiedCandidates[Math.floor(Math.random() * tiedCandidates.length)];
+            }
+
+            // Jeśli brak odpowiedzi
+            if (!resultCandidate) {
+                resultCandidate = 'boracik'; // Bo i tak wygrywa
+            }
+
+            // Wyświetl wynik
+            const result = candidates[resultCandidate];
+            document.getElementById('result-content').innerHTML = `
+                <div class="candidate" style="border-left: 5px solid ${result.color}">
+                    <h3 style="color: ${result.color}">${result.name}</h3>
+                    <p>${result.description}</p>
+                    <p class="highlight">"${result.quote}"</p>
+                    <p>Gratulacje! To twój idealny kandydat wśród tej bandy impostorów!</p>
+                </div>
+            `;
+            
+            document.getElementById('result').style.display = 'block';
+            window.scrollTo({
+                top: document.getElementById('result').offsetTop,
+                behavior: 'smooth'
+            });
+            
+            // Aktualizuj pasek postępu
+            const totalQuestions = document.querySelectorAll('.question').length;
+            const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+            const progress = (answeredQuestions / totalQuestions) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        // Aktualizuj pasek postępu przy wyborze odpowiedzi
+        document.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.addEventListener('change', function() {
+                const totalQuestions = document.querySelectorAll('.question').length;
+                const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+                const progress = (answeredQuestions / totalQuestions) * 100;
+                document.getElementById('progress').style.width = `${progress}%`;
+            });
+        });
+    </script>
+</body>
+</html>
